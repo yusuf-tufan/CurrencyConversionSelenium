@@ -7,10 +7,11 @@ This is a terminal-based currency converter project built with **Python**, **Sel
 - Python
 - Selenium
 - NumPy
+- Tkinter
 
 ## 📋 Description
 
-- The application runs directly in the terminal (no GUI at the moment).
+- A simple currency converter app with a Tkinter GUI.
 - Asks the user to enter an amount.
 - Then it asks which currency to convert to (e.g., USD to EUR).
 - It fetches real-time exchange rates from Google using Selenium.
