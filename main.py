@@ -76,7 +76,6 @@ def result():
     except:
         messagebox.showinfo(message='Enter Correct Data', title='Error')
 
-
 #list of currencies
 dizi=np.array(listofcurrencies).reshape(4,7)
 lbl_list=Label(text=f'Enter the first amount -> currency name1 -> currency name2 -> Currency Conversion\n\nYou must select your currency from the list:\n\n{dizi}',bg='white',fg='black',font=('Arial',10,'bold'))
