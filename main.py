@@ -11,8 +11,11 @@ from tkinter import *
 
 window=Tk()
 window.title('Currency Converter')
+window.config(bg='silver')
 
-listofcurrencies=['TRY','USD','EUR','CHF','GBP','CAD','AUD','CNY','RUB','CNH','SEK','KWD','PKR','QAR','DKK','SAR','BGN','RON','NOK','IRR','JPY','ZAR','RSD','AED','BYN','TJS','','']
+listofcurrencies=['TRY','USD','EUR','CHF','GBP','CAD','AUD','CNY','RUB','CNH','SEK',
+                  'KWD','PKR','QAR','DKK','SAR','BGN','RON','NOK','IRR',
+                  'JPY','ZAR','RSD','AED','BYN','TJS','','']
 
 def result():
     global listofcurrencies
@@ -34,6 +37,7 @@ def result():
             chromedriver_autoinstaller.install()
             driver = webdriver.Chrome()
             driver.minimize_window()
+
             # Go to URL
             url = 'https://www.foreks.com/doviz/'
             driver.get(url)
@@ -54,7 +58,6 @@ def result():
             sellect2 = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div/div[3]/div[2]/div/div[2]/div[2]/select")
             sellect2.send_keys(f'{user_currency2}')
             sellect2.send_keys(Keys.ENTER)
-            sleep(1)
 
             #return the result in the input box
             try:
@@ -62,33 +65,41 @@ def result():
                     EC.presence_of_element_located((By.XPATH, '/html/body/div[3]/div/div/div/div[3]/div[2]/div/div[2]/div[2]/input'))
                 )
                 value = input_element.get_attribute("value")
-                lbl_result=Label(text=f"Exchange Rate: {user_amount}:{user_currency.upper()} --> {value}:{user_currency2.upper()}",bg='black',fg='light green',font=('Arial',15,'bold'))
-                lbl_result.pack(pady=(0,2))
+                lbl_result.config(text=f"Exchange Rate: {user_amount}:{user_currency.upper()} --> {value}:{user_currency2.upper()}",
+                                  bg='black',fg='light green',font=('Arial',15,'bold'))
 
             except:
                 lbl_error=Label(text='Error')
                 lbl_error.pack()
 
             driver.quit()
-
-            #button active
-            btn_start.config(state="active")
     except:
         messagebox.showinfo(message='Enter Correct Data', title='Error')
 
+def clear_all():
+    lbl_result.config(text='',bg='silver')
+    enter_amount.delete(0,END)
+    enter_first.delete(0,END)
+    enter_second.delete(0,END)
+
+    # button active
+    btn_start.config(state='active',bg='light green')
+
 #list of currencies
 dizi=np.array(listofcurrencies).reshape(4,7)
-lbl_list=Label(text=f'Enter the first amount -> currency name1 -> currency name2 -> Currency Conversion\n\nYou must select your currency from the list:\n\n{dizi}',bg='white',fg='black',font=('Arial',10,'bold'))
+lbl_list=Label(text=f'Enter the first amount -> currency name1 -> currency name2 -> Currency Conversion\n\n'
+                    f'You must select your currency from the list:\n\n'
+                    f'{dizi}',bg='brown',fg='white',font=('Arial',12,'bold'))
 lbl_list.pack(pady=(0,20))
 
 #Enter amount
-lbl_enter=Label(text='Enter amount: ')
+lbl_enter=Label(text='Enter amount',font=('Arial',10,'bold'))
 lbl_enter.pack(pady=(0,5))
 enter_amount=Entry(width=15)
-enter_amount.pack(pady=(0,20))
+enter_amount.pack(pady=(0,10))
 
 #Enter currency names
-lbl_enter_first=Label(text='Enter currency names')
+lbl_enter_first=Label(text='Enter currency names',font=('Arial',10,'bold'))
 lbl_enter_first.pack(pady=(0,2))
 enter_first=Entry(width=10)
 enter_first.pack(pady=(0,1))
@@ -102,8 +113,16 @@ enter_second.pack(pady=(0,20))
 #start button
 lbl_start=Label(text='You Must Start To The URL\nWait After Pressing...',font=('Arial',9,'bold'))
 lbl_start.pack(padx=200,pady=5)
-btn_start=Button(text='Convert Currency',command=result )
+btn_start=Button(text='Convert Currency',bg='light green',command=result )
 btn_start.pack(pady=(0,10))
+
+#result label
+lbl_result=Label(text='',bg='silver',fg='light green',font=('Arial',15,'bold'))
+lbl_result.pack(pady=(0,10))
+
+#clear the window
+btn_clear=Button(text='CLAER ALL',fg='white',bg='red',font=('Arial',9,'bold'),command=clear_all)
+btn_clear.pack(pady=(0,10))
 
 
 window.mainloop()
