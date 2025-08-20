@@ -8,17 +8,22 @@ from time import sleep
 from selenium.webdriver.support.wait import WebDriverWait
 import numpy as np
 from tkinter import *
+import time
+
+#time
+local_time = time.localtime()
 
 window=Tk()
 window.title('Currency Converter')
 window.config(bg='silver')
+window.state('zoomed')
 
 listofcurrencies=['TRY','USD','EUR','CHF','GBP','CAD','AUD','CNY','RUB','CNH','SEK',
                   'KWD','PKR','QAR','DKK','SAR','BGN','RON','NOK','IRR',
                   'JPY','ZAR','RSD','AED','BYN','TJS','','']
 
 def result():
-    global listofcurrencies
+    global listofcurrencies,local_time
     try:
         user_amount = float(enter_amount.get())
         user_currency = str(enter_first.get())
@@ -65,7 +70,9 @@ def result():
                     EC.presence_of_element_located((By.XPATH, '/html/body/div[3]/div/div/div/div[3]/div[2]/div/div[2]/div[2]/input'))
                 )
                 value = input_element.get_attribute("value")
-                lbl_result.config(text=f"Exchange Rate: {user_amount}:{user_currency.upper()} --> {value}:{user_currency2.upper()}",
+                time_str = time.strftime("%m/%d/%Y\n%H:%M:%S")
+                lbl_result.config(text=f"Exchange Rate: {user_amount}:{user_currency.upper()} --> {value}:{user_currency2.upper()}\n"
+                                       f"Time: {time_str}",
                                   bg='black',fg='light green',font=('Arial',15,'bold'))
 
             except:
